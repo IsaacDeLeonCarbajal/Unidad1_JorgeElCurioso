@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pou</title>
+</head>
+
+<body style="text-align: center; background-color: aquamarine;">
+    <h1>Cuida a tu propio Pou</h1>
+
+    <img id="img-pou" src="res/pou.png" alt="Imagen de Pou">
+
+    <br><br>
+
+    <!-- Botones con las acciones disponibles -->
+    <div>
+        <button class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: -50px;" onclick="activarFiltro();"></button>
+        <button class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 0px;"></button>
+        <button class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 50px;"></button>
+    </div>
+
+    <!-- Indicadores de hambre, sueño y baño -->
+    <div style="position: absolute; left: 85%; top: 20%;">
+        <div style="float: left;">
+            <div class="div-indicador" style="background-color: transparent; width: fit-content;">
+                <div id="indicador-hambre" class="div-indicador" style="border-color: transparent; box-sizing: border-box;"></div>
+            </div>
+
+            <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+        </div>
+        <div style="float: left;">
+            <div class="div-indicador" style="background-color: transparent; width: fit-content;">
+                <div id="indicador-suenio" class="div-indicador" style="border-color: transparent; box-sizing: border-box;"></div>
+            </div>
+
+            <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+        </div>
+        <div style="float: left;">
+            <div class="div-indicador" style="background-color: transparent; width: fit-content;">
+                <div id="indicador-banio" class="div-indicador" style="border-color: transparent; box-sizing: border-box;"></div>
+            </div>
+            
+            <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+        </div>
+    </div>
+
+    <label id="lbl-filtro-noche" class="filtro-noche" style="display: none;"></label>
+
+    <script src="Main.js"></script>
+
+    <script>
+        var lblFiltroNoche = document.getElementById("lbl-filtro-noche");
+
+        function activarFiltro() {
+            lblFiltroNoche.style.display = (lblFiltroNoche.style.display == "none") ? "inline" : "none";
+        }
+    </script>
+</body>
+
+</html>
