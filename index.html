@@ -18,30 +18,30 @@
 
     <!-- Botones con las acciones disponibles -->
     <div>
-        <button class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: -50px;" onclick="activarFiltro();"></button>
-        <button class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 0px;"></button>
-        <button class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 50px;"></button>
+        <button id="btn-sueno" class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: -50px;" onclick="activarFiltro();"></button>
+        <button id="btn-comida" class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 0px;"></button>
+        <button id="btn-bano" class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 50px;"></button>
     </div>
 
     <!-- Indicadores de hambre, sueño y baño -->
     <div style="position: absolute; left: 85%; top: 20%;">
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="indicador-hambre" class="div-indicador" style="border-color: transparent; box-sizing: border-box;"></div>
+                <div id="div-indicador-sueno" class="div-indicador" style="border-width: 0px; box-sizing: border-box;"></div>
             </div>
 
             <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
         </div>
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="indicador-suenio" class="div-indicador" style="border-color: transparent; box-sizing: border-box;"></div>
+                <div id="div-indicador-comida" class="div-indicador" style="border-width: 0px; box-sizing: content-box;"></div>
             </div>
 
             <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
         </div>
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="indicador-banio" class="div-indicador" style="border-color: transparent; box-sizing: border-box;"></div>
+                <div id="div-indicador-bano" class="div-indicador" style="border-width: 0px; box-sizing: border-box;"></div>
             </div>
             
             <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
@@ -50,10 +50,27 @@
 
     <label id="lbl-filtro-noche" class="filtro-noche" style="display: none;"></label>
 
-    <script src="Main.js"></script>
+    <script src="Pou.js"></script>
 
     <script>
         var lblFiltroNoche = document.getElementById("lbl-filtro-noche");
+        var btnSueno = document.getElementById("btn-sueno");
+        var btnComida = document.getElementById("btn-comida");
+        var btnBano = document.getElementById("btn-bano");
+        
+        let pou = new Pou();
+
+        btnSueno.addEventListener('click', () => {
+            pou.aumentarNivel('SUENO');
+        });
+
+        btnComida.addEventListener('click', () => {
+            pou.aumentarNivel('COMIDA');
+        });
+
+        btnBano.addEventListener('click', () => {
+            pou.aumentarNivel('BANO');
+        });
 
         function activarFiltro() {
             lblFiltroNoche.style.display = (lblFiltroNoche.style.display == "none") ? "inline" : "none";

@@ -52,6 +52,7 @@ button:hover {
     background-color: green;
     width: var(--ancho-indicadores);
     height: var(--alto-indicadores);
+    position: relative;
     border-style: solid;
     border-width: 3px;
     border-radius: 0px;
