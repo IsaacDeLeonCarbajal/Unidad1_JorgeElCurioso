@@ -12,56 +12,100 @@
 <body style="text-align: center; background-color: aquamarine;">
     <h1>Cuida a tu propio Pou</h1>
 
-    <img id="img-pou" src="res/pou.png" alt="Imagen de Pou">
+    <img id="img-principal" src="res/principal.gif" alt="Imagen de Pou" height="300px">
 
     <br><br>
 
     <!-- Botones con las acciones disponibles -->
-    <div>
-        <button id="btn-sueno" class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: -50px;" onclick="activarFiltro();"></button>
-        <button id="btn-comida" class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 0px;"></button>
-        <button id="btn-bano" class="btn-accion sin-filtro-noche" style="background-image:url('res/papel-de-banio.png'); left: 50px;"></button>
+    <div id="div-botones">
+        <button id="btn-sueno" class="btn-accion sin-filtro-noche"
+            style="background-image:url('res/lampara.png'); left: -50px;"></button>
+        <button id="btn-comida" class="btn-accion sin-filtro-noche"
+            style="background-image:url('res/pierna-de-pollo.png'); left: 0px;"></button>
+        <button id="btn-bano" class="btn-accion sin-filtro-noche"
+            style="background-image:url('res/retrete.png'); left: 50px;"></button>
     </div>
 
     <!-- Indicadores de hambre, sueño y baño -->
     <div style="position: absolute; left: 85%; top: 20%;">
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="div-indicador-sueno" class="div-indicador" style="border-width: 0px; box-sizing: border-box;"></div>
+                <div id="div-indicador-sueno" class="div-indicador" style="border-width: 0px; box-sizing: border-box;">
+                </div>
             </div>
 
-            <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+            <img src="res/luna.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
         </div>
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="div-indicador-comida" class="div-indicador" style="border-width: 0px; box-sizing: content-box;"></div>
+                <div id="div-indicador-comida" class="div-indicador"
+                    style="border-width: 0px; box-sizing: content-box;"></div>
             </div>
 
-            <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+            <img src="res/pierna-de-pollo.png"
+                style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
         </div>
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="div-indicador-bano" class="div-indicador" style="border-width: 0px; box-sizing: border-box;"></div>
+                <div id="div-indicador-bano" class="div-indicador"
+                    style="height: 0px; border-width: 0px; box-sizing: border-box;"></div>
             </div>
-            
-            <img src="res/papel-de-banio.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+
+            <img src="res/papel-higienico.png"
+                style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
         </div>
     </div>
+
+    <!-- Dialog para mostrar diversas alertas -->
+    <dialog id="dlg-alerta">
+        <form method="dialog">
+            <h2 id="titulo-alerta"></h2>
+            <label id="lbl-alerta"></label>
+            <br><br>
+            <button class="btn-dialog" type="submit">Continuar</button>
+        </form>
+    </dialog>
 
     <label id="lbl-filtro-noche" class="filtro-noche" style="display: none;"></label>
 
     <script src="Pou.js"></script>
 
     <script>
+        var imgPrincipal = document.getElementById('img-principal');
+        var divBotones = document.getElementById("div-botones");
         var lblFiltroNoche = document.getElementById("lbl-filtro-noche");
+
         var btnSueno = document.getElementById("btn-sueno");
         var btnComida = document.getElementById("btn-comida");
         var btnBano = document.getElementById("btn-bano");
-        
+
+        let timeoutId;
+
         let pou = new Pou();
 
         btnSueno.addEventListener('click', () => {
-            pou.aumentarNivel('SUENO');
+            pou.setDurmiendo(!pou.durmiendo);
+            lblFiltroNoche.style.display = (lblFiltroNoche.style.display == "none") ? "inline" : "none";
+
+            clearTimeout(timeoutId); //Eliminar el cambio que haya
+
+            if (pou.durmiendo) {
+                imgPrincipal.src = "res/durmiendo1.gif";
+
+                timeoutId = setTimeout(() => {
+                    imgPrincipal.src = "res/durmiendo2.gif";
+
+                    timeoutId = setTimeout(() => {
+                        imgPrincipal.src = "res/durmiendo3.gif";
+
+                        timeoutId = setTimeout(() => {
+                            imgPrincipal.src = "res/durmiendo4.gif";
+                        }, 1650);
+                    }, 8000);
+                }, 1500);
+            } else {
+                imgPrincipal.src = "res/principal.gif";
+            }
         });
 
         btnComida.addEventListener('click', () => {
@@ -70,10 +114,32 @@
 
         btnBano.addEventListener('click', () => {
             pou.aumentarNivel('BANO');
+
+            clearTimeout(timeoutId); //Eliminar el cambio que haya
+            
+            if (!pou.durmiendo) {
+                imgPrincipal.src = "res/bano.gif";
+
+                ocultarBotones(2000);
+
+                timeoutId = setTimeout(() => {
+                    imgPrincipal.src = "res/principal.gif";
+                }, 2000);
+            }
         });
 
-        function activarFiltro() {
-            lblFiltroNoche.style.display = (lblFiltroNoche.style.display == "none") ? "inline" : "none";
+        /**
+         * Ocultar los botones de acción durante los milisegundos especificados
+         * 
+         * @param {number} millis Cantidad de milisegundos que se van a ocultar los botones
+         * 
+         */
+        function ocultarBotones(millis) {
+            divBotones.style.display = "none";
+
+            setTimeout(() => {
+            divBotones.style.display = "inline";
+            }, millis);
         }
     </script>
 </body>

@@ -72,7 +72,7 @@ button:hover {
 
 .btn-accion:hover {
     background-color: rgb(20, 37, 156);
-    border-color: rgb(115, 156, 20);
+    border-color: rgb(20, 37, 156);;
     color: white;
 }
 
