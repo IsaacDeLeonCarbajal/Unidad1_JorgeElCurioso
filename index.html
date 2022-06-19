@@ -6,24 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Pou</title>
+    <title>Jorge el curioso</title>
 </head>
 
 <body style="text-align: center; background-color: aquamarine;">
-    <h1>Cuida a tu propio Pou</h1>
+    <h1>Cuida a Jorge el curioso</h1>
 
-    <img id="img-principal" src="res/principal.gif" alt="Imagen de Pou" height="300px">
+    <img id="img-principal" src="res/saludando.gif" alt="Imagen de Pou" height="300px">
 
     <br><br>
 
     <!-- Botones con las acciones disponibles -->
     <div id="div-botones">
-        <button id="btn-sueno" class="btn-accion sin-filtro-noche"
-            style="background-image:url('res/lampara.png'); left: -50px;"></button>
-        <button id="btn-comida" class="btn-accion sin-filtro-noche"
-            style="background-image:url('res/pierna-de-pollo.png'); left: 0px;"></button>
-        <button id="btn-bano" class="btn-accion sin-filtro-noche"
-            style="background-image:url('res/retrete.png'); left: 50px;"></button>
+        <button id="btn-sueno" class="btn-accion sin-filtro-noche" style="background-image:url('res/lampara.png'); left: -50px;"></button>
+        <button id="btn-comida" class="btn-accion sin-filtro-noche" style="background-image:url('res/pierna-de-pollo.png'); left: 0px;"></button>
+        <button id="btn-bano" class="btn-accion sin-filtro-noche" style="background-image:url('res/retrete.png'); left: 50px;"></button>
     </div>
 
     <!-- Indicadores de hambre, sueño y baño -->
@@ -38,8 +35,7 @@
         </div>
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="div-indicador-comida" class="div-indicador"
-                    style="border-width: 0px; box-sizing: content-box;"></div>
+                <div id="div-indicador-comida" class="div-indicador" style="border-width: 0px; box-sizing: content-box;"></div>
             </div>
 
             <img src="res/pierna-de-pollo.png"
@@ -47,12 +43,10 @@
         </div>
         <div style="float: left;">
             <div class="div-indicador" style="background-color: transparent; width: fit-content;">
-                <div id="div-indicador-bano" class="div-indicador"
-                    style="height: 0px; border-width: 0px; box-sizing: border-box;"></div>
+                <div id="div-indicador-bano" class="div-indicador" style="height: 0px; border-width: 0px; box-sizing: border-box;"></div>
             </div>
 
-            <img src="res/papel-higienico.png"
-                style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
+            <img src="res/papel-higienico.png" style="width: var(--ancho-indicadores); height: var(--ancho-indicadores);">
         </div>
     </div>
 
@@ -68,7 +62,7 @@
 
     <label id="lbl-filtro-noche" class="filtro-noche" style="display: none;"></label>
 
-    <script src="Pou.js"></script>
+    <script src="Jorge.js"></script>
 
     <script>
         var imgPrincipal = document.getElementById('img-principal');
@@ -81,15 +75,19 @@
 
         let timeoutId;
 
-        let pou = new Pou();
+        setTimeout(() => { //Mostrar el saludo, y luego mostrar la imagen principal
+            imgPrincipal.src = "res/principal.gif";
+        }, 2600);
+
+        let jorge = new Jorge();
 
         btnSueno.addEventListener('click', () => {
-            pou.setDurmiendo(!pou.durmiendo);
+            jorge.setDurmiendo(!jorge.durmiendo); //Actualizar el estado de durmiendo
             lblFiltroNoche.style.display = (lblFiltroNoche.style.display == "none") ? "inline" : "none";
 
             clearTimeout(timeoutId); //Eliminar el cambio que haya
 
-            if (pou.durmiendo) {
+            if (jorge.durmiendo) { //Si no está durmiendo
                 imgPrincipal.src = "res/durmiendo1.gif";
 
                 timeoutId = setTimeout(() => {
@@ -103,27 +101,38 @@
                         }, 1650);
                     }, 8000);
                 }, 1500);
-            } else {
+            } else { //Si está durmiendo
                 imgPrincipal.src = "res/principal.gif";
             }
         });
 
         btnComida.addEventListener('click', () => {
-            pou.aumentarNivel('COMIDA');
-        });
+            jorge.aumentarNivel('COMIDA');
 
-        btnBano.addEventListener('click', () => {
-            pou.aumentarNivel('BANO');
 
-            clearTimeout(timeoutId); //Eliminar el cambio que haya
-            
-            if (!pou.durmiendo) {
-                imgPrincipal.src = "res/bano.gif";
+            if (!jorge.durmiendo) { //Si no está durmiendo
+                imgPrincipal.src = "res/principal.gif"; //Mostrar al mono comiendo
 
                 ocultarBotones(2000);
 
                 timeoutId = setTimeout(() => {
-                    imgPrincipal.src = "res/principal.gif";
+                    imgPrincipal.src = "res/principal.gif"; //Regresar a la imagen principal
+                }, 2000);
+            }
+        });
+
+        btnBano.addEventListener('click', () => {
+            jorge.aumentarNivel('BANO');
+
+            clearTimeout(timeoutId); //Eliminar el cambio que haya
+            
+            if (!jorge.durmiendo) { //Si no está durmiendo
+                imgPrincipal.src = "res/bano.gif"; //Mostrar al mono yendo al baño
+
+                ocultarBotones(2000);
+
+                timeoutId = setTimeout(() => {
+                    imgPrincipal.src = "res/principal.gif"; //Regresar a la imagen principal
                 }, 2000);
             }
         });
